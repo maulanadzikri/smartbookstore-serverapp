@@ -6,6 +6,8 @@ spring:
     username: ${DATABASE_USERNAME}
     password: ${DATABASE_PASSWORD}
     driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      maximum-pool-size: 5
   thymeleaf:
     prefix: classpath:/templates/
     suffix: .html
