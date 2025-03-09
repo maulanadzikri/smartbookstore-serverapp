@@ -1,5 +1,5 @@
 # **Stage 1: Build aplikasi dengan Maven**
-FROM maven:3.8.8-openjdk-8 AS builder
+FROM maven:3.8.8-eclipse-temurin-8 AS builder
 
 WORKDIR /app
 
