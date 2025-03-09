@@ -1,18 +1,21 @@
-# Gunakan image base OpenJDK 8 (karena di pom.xml menggunakan Java 1.8)
+# Gunakan base image OpenJDK 8 yang ringan
 FROM openjdk:8-jdk-alpine
 
-# Set working directory dalam container
+# Set working directory
 WORKDIR /app
 
-# Copy file pom.xml dan source code ke dalam container
+# Salin file pom.xml dan unduh dependencies terlebih dahulu (agar cache tetap terjaga)
 COPY pom.xml .
+RUN apk add --no-cache maven && mvn dependency:go-offline
+
+# Salin semua kode sumber ke dalam container
 COPY src ./src
 
-# Download dependencies dan build project (agar cache tetap terjaga)
-RUN apk add --no-cache maven && mvn clean package -DskipTests
+# Build aplikasi dalam container (membuat file JAR)
+RUN mvn clean package -DskipTests
 
 # Copy hasil build ke dalam container
-COPY target/Smart-Bookstore-0.0.1-SNAPSHOT.jar app.jar
+COPY target/*.jar app.jar
 
 # Perintah untuk menjalankan aplikasi
 CMD ["java", "-jar", "app.jar"]
