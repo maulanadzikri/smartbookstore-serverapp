@@ -1,21 +1,23 @@
-# Gunakan base image OpenJDK 8 yang ringan
-FROM openjdk:8-jdk-alpine
-
-# Set working directory
+# **Stage 1: Build aplikasi dengan Maven**
+FROM maven:3.8.7-openjdk-8 AS builder
 WORKDIR /app
 
-# Salin file pom.xml dan unduh dependencies terlebih dahulu (agar cache tetap terjaga)
+# Salin file pom.xml dan download dependencies terlebih dahulu
 COPY pom.xml .
-RUN apk add --no-cache maven && mvn dependency:go-offline
+RUN mvn dependency:go-offline
 
-# Salin semua kode sumber ke dalam container
+# Salin semua kode sumber
 COPY src ./src
 
-# Build aplikasi dalam container (membuat file JAR)
+# Build aplikasi untuk menghasilkan JAR
 RUN mvn clean package -DskipTests
 
-# Copy hasil build ke dalam container
-COPY target/*.jar app.jar
+# **Stage 2: Jalankan aplikasi di container yang lebih ringan**
+FROM openjdk:8-jdk-alpine
+WORKDIR /app
+
+# Copy file JAR hasil build dari stage pertama
+COPY --from=builder /app/target/*.jar app.jar
 
 # Perintah untuk menjalankan aplikasi
 CMD ["java", "-jar", "app.jar"]
