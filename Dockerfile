@@ -1,5 +1,6 @@
 # **Stage 1: Build aplikasi dengan Maven**
-FROM maven:3.8.7-openjdk-8 AS builder
+FROM maven:3.8.8-openjdk-8 AS builder
+
 WORKDIR /app
 
 # Salin file pom.xml dan download dependencies terlebih dahulu
