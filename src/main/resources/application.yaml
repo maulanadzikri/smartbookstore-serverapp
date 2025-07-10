@@ -2,12 +2,12 @@ server:
   port: 9090
 spring:
   datasource:
-    url: ${DATABASE_URL}
-    username: ${DATABASE_USERNAME}
-    password: ${DATABASE_PASSWORD}
+    url: jdbc:mysql://SpGYVDv9QuzQWMb.root:73BFyiUFeyJwn0Gb@gateway01.ap-southeast-1.prod.aws.tidbcloud.com:4000/sbs_db?sslMode=VERIFY_IDENTITY
+    username: SpGYVDv9QuzQWMb.root
+    password: 73BFyiUFeyJwn0Gb
     driver-class-name: com.mysql.cj.jdbc.Driver
-    hikari:
-      maximum-pool-size: 5
+    # hikari:
+    #   maximum-pool-size: 5
   thymeleaf:
     prefix: classpath:/templates/
     suffix: .html
