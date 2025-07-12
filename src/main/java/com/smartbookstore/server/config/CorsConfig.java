@@ -14,7 +14,10 @@ public class CorsConfig {
     UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
     CorsConfiguration config = new CorsConfiguration();
 
-    config.setAllowedOrigins(Arrays.asList("http://localhost:9099")); // Izinkan frontend
+    config.setAllowedOrigins(Arrays.asList(
+        "http://localhost:9099",
+        "https://smartbookstore-clientapp.fly.dev"
+    ));
     config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
     config.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));
     config.setAllowCredentials(true);
@@ -23,3 +26,4 @@ public class CorsConfig {
     return new CorsFilter(source);
   }
 }
+
